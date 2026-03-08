@@ -35,6 +35,10 @@ echo ${REPO_URL}/${PACKAGE_PATH}
 wget ${REPO_URL}/${PACKAGE_PATH}
 ```
 
+***WARNING***
+Edit Dockerfile and replace ***.deb*** package version with one you have downloaded.
+
+
 Build image and start container
 ===============================
 
