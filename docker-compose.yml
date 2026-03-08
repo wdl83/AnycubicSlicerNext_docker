@@ -1,0 +1,38 @@
+services:
+  anycubic:
+    platform: linux/amd64
+    tty: true
+    stdin_open: true
+    privileged: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+          USR: ${USR}
+          UID: ${UID}
+          GID: ${GID}
+          HOSTNAME: ${HOSTNAME}
+    user: "${UID}:${GID}"
+    group_add:
+      - video
+      - render
+    image: anycubic:1.0
+    hostname: ${HOSTNAME}
+    container_name: anycubic
+    cap_add:
+        - SYS_PTRACE
+    environment:
+        - DISPLAY=${DISPLAY}
+        - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+    devices:
+        - /dev/dri:/dev/dri
+        - /dev/card0:/dev/card0
+        - /dev/renderD128:/dev/renderD128
+    network_mode: host
+    volumes:
+        - ~/.vim:/home/${USR}/.vim
+        - ~/.vimrc:/home/${USR}/.vimrc
+        - /tmp/.X11-unix:/tmp/.X11-unix
+        - ~/.Xauthority:/home/${USR}/.Xauthority
+        - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}
+        - ~/.config/AnycubicSlicerNext:/home/${USR}/.config/AnycubicSlicerNext
